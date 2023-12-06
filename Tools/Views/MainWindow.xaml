@@ -1,0 +1,72 @@
+﻿<Window x:Class="Tools.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        mc:Ignorable="d"
+        Height="250" Width="300"
+        Title="设置"
+        xmlns:helpers="clr-namespace:Tools.Helpers"
+        xmlns:vm="clr-namespace:Tools.ViewModels" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        helpers:AttchedPropertys.GetView="True"
+        ResizeMode="NoResize" Icon="/Tools;component/app.ico"
+        DataContext="{Binding MainWindowViewModel,Source={StaticResource Locator}}" 
+        Topmost="True" WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid Margin="10">
+        <StackPanel >
+            <CheckBox Content="开机启动" IsChecked="{Binding IsAutoStart}" HorizontalAlignment="Left"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="屏幕锁定" IsChecked="{Binding IsAutoLock}" x:Name="IsAutoLock"/>
+                <materialDesign:TimePicker Text="{Binding  LockTime}" materialDesign:HintAssist.Hint="锁定时间" Is24Hours="True" Width="100" Margin="10 0 0 0" Visibility="{Binding IsChecked, ElementName=IsAutoLock,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
+            <CheckBox Content="快捷命令" IsChecked="{Binding IsCommand}" HorizontalAlignment="Left"/>
+            <TextBlock Text="快捷键" Margin="0 20 0 5"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  Text="识别二维码：" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1"  Text="{Binding ReadQrcodeHotKey}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="KeyDown">
+                            <command:EventToCommand Command="{Binding ReadQrcodeCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <TextBlock Grid.Row="1" Text="生成二维码：" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox  Grid.Row="1" Grid.Column="1"  Text="{Binding CreateQrcodeHotKey}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="KeyDown">
+                            <command:EventToCommand Command="{Binding CreateQrcodeCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <TextBlock Grid.Row="2" Text="远程助手：" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <TextBox  Grid.Row="2" Grid.Column="1"  Text="{Binding ConnectMachineHotKey}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="KeyDown">
+                            <command:EventToCommand Command="{Binding ConnectMachineCommand}" PassEventArgsToCommand="True"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

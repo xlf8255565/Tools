@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helpers\BarCodeHelper.cs" />
+    <Compile Remove="Startup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="app.ico" />
+    <None Remove="machines.json" />
+    <None Remove="MainWindowViewModel.cs~RF2419897f.TMP" />
+    <None Remove="Startup.cs~RF240aaeb3.TMP" />
+    <None Remove="Views\Commands.xaml~RFeaeaaee.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="app.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="MvvmLight" Version="5.4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NLog" Version="5.1.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.2.2" />
+    <PackageReference Include="ThoughtWorks.QRCodeCore" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Sunflower.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+</Project>

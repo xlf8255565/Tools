@@ -1,0 +1,87 @@
+﻿<Window x:Class="Tools.Views.Sunflower"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tools"
+        xmlns:helpers="clr-namespace:Tools.Helpers"
+        helpers:AttchedPropertys.GetView="True"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:vm="clr-namespace:Tools.ViewModels"
+        xmlns:sample="clr-namespace:Tools.Samples"
+        mc:Ignorable="d"
+        Title="远程连接助手" Height="508" Width="330"
+        ResizeMode="NoResize"
+        DataContext="{Binding SunflowerViewModel,Source={StaticResource Locator}}" Topmost="True" ShowInTaskbar="True"
+        d:DataContext="{d:DesignInstance sample:SampleSunflowerViewModel,IsDesignTimeCreatable=True}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid  Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button ToolTip="修改设置" Command="{Binding ModifySettingsCommand}" Height="23" Margin="0 0 5 0">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="Settings" />
+                </Button.Content>
+            </Button>
+            <Button ToolTip="输入复制的文本" Command="{Binding EnterCopyCommand}" Height="23" Margin="0 0 5 0">
+                <Button.Content>
+                    <materialDesign:PackIcon Kind="ContentCopy" />
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Machines}" Margin="0 5 0 0">
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter Margin="5"/>
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0 0 0 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Account}" VerticalAlignment="Center"/>
+                        <Button ToolTip="远程连接" Grid.Column="2"  Command="{Binding DataContext.ConnectCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" CommandParameter="{Binding}" Height="23"  Margin="5 0 0 0">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Connection"/>
+                            </Button.Content>
+                        </Button>
+                        <Button ToolTip="输入Windows密码" Grid.Column="3" Command="{Binding DataContext.EnterPasswordCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" CommandParameter="{Binding}" Height="23" Margin="5 0 0 0">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="MicrosoftWindows" />
+                            </Button.Content>
+                        </Button>
+                        <!--<materialDesign:PackIcon Foreground="#2196F3" Grid.Column="2" Kind="Connection" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                        <materialDesign:PackIcon Foreground="#2196F3" Grid.Column="3" Kind="MicrosoftWindows" VerticalAlignment="Center" Margin="10 0 0 0"/>-->
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <!--<ListBox SelectedItem="{Binding Machine}" DisplayMemberPath="Title">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectMachineCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListBox>-->
+    </Grid>
+</Window>
