@@ -115,6 +115,11 @@ namespace Tools.ViewModels
                         Win32.keybd_event(37, 0, 0, 0);
                         Win32.keybd_event(37, 0, 2, 0);
                     }
+                    else if (item == '↓')
+                    {
+                        Win32.keybd_event(13, 0, 0, 0);
+                        Win32.keybd_event(13, 0, 2, 0);
+                    }
                     else
                     {
                         Win32.keybd_event(Win32.VkKeyScanA(item), 0, 0, 0);
